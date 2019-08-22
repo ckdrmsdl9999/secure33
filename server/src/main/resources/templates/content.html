@@ -404,7 +404,7 @@
                     data[i].minTemp=data[i].minTemp.substring(0,2);
                     data[i].maxTemp=data[i].maxTemp.substring(0,2);}
               //  data[i].maxTemp=data[i].maxTemp.substring(data[i].maxTemp.length-2);}
-                $festival_item4.text("Max-"+data[i].minTemp+" "+"Min-"+data[i].maxTemp);
+                $festival_item4.text(" "+data[i].minTemp+"'C ~"+data[i].maxTemp+"'C");
                 $("#temperature").append($festival_item4);
             }
             //alert("띄우기일단완료");

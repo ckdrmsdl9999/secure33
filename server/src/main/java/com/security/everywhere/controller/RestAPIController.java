@@ -830,10 +830,10 @@ public class RestAPIController {
         weatherForecastParam.setAddr(festivals2.getAddr1());
         weatherForecastParam.setMapX(festivals2.getMapX());
         weatherForecastParam.setMapY(festivals2.getMapY());
-        System.out.println("/weatherinfo에서db값체크2"+festivals2.getAddr1()+"*"+festivals2.getMapX().length()+"*"+festivals2.getMapY());
+        System.out.println("/weatherinfo에서db값체크2"+festivals2.getAddr1()+"*"+festivals2.getMapX()+"*"+festivals2.getMapY());
 
 
-        if(festivals2.getMapX().length()==0)//예외처리
+        if(festivals2.getMapX().length()==0)//예외처리default값
         {
             System.out.println("db에 x,y값이 존재하지않는 축제입니다kkkkkkkkkkkkkkkkkkk");
             weatherForecastParam.setMapX("126.9787932340");
