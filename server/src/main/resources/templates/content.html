@@ -147,6 +147,9 @@
             margin-left: -30px;
         }
 
+        .break{
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -395,7 +398,7 @@
                 else if(data[i].state=="구름많고 비"||data[i].state=="흐리고 비")
                     $festival_item3.find('i').addClass("fas fa-cloud-rain");
                 else if(data[i].state=="맑음")
-                    $festival_item3.find('i').addClass("fas fa-cloud");
+                    $festival_item3.find('i').addClass("fas fa-sun");
                 else if(data[i].state=="구름많고 눈"||data[i].state=="구름많고 눈"||data[i].state=="구름많고 비/눈"||data[i].state=="구름많고 눈/비"
                     +data[i].state=="흐리고 눈"||data[i].state=="흐리고 비/눈"|data[i].state=="흐리고 눈/비")
                     $festival_item3.find('i').addClass("fas fa-snowflake");
@@ -450,7 +453,7 @@
     });
 
     $( document ).ready(function() {//근처관광지
-        var param = {"contentid": val, "numOfRows": "10", "pageNo": "1", "arrange": "E", "radius": "5000"};
+        var param = {"contentid": val, "numOfRows": "10", "pageNo": "1", "arrange": "E", "radius": "8000"};
         getLocation()
         $.ajax({
             url: "/api/nearbyTour",
@@ -493,7 +496,7 @@
         $(document).on('click',".mylocation2",function (){//내위치기반근처관광지
 
             //  alert("myyx값"+myx+"myy값"+myy);
-            var param = {"contentid" : val ,"mapX":myx,"mapY":myy,"numOfRows":"10","pageNo":"1","arragne":"E","radius":"5000"};
+            var param = {"contentid" : val ,"mapX":myx,"mapY":myy,"numOfRows":"10","pageNo":"1","arragne":"E","radius":"8000"};
 
             $.ajax({
                 url: "/api/nearbyTour2",
@@ -536,8 +539,9 @@
             var textcontent = $('.form-control').val();
             var param = {"contentId": val, "userId": "익명", "textcontent": textcontent, "star": star, "date": today};
 
-
-            if (textcontent != null) {
+            if (textcontent.length >= 100)
+                alert("내용을 입력해주세요.(100자 이하)");
+            else if (textcontent != "") {
                 $.ajax({
                     url: "/api/writeReview",
                     type: "POST",
@@ -549,9 +553,8 @@
                 }).fail(function (data) {
                     alert('fail');
                 });
-            } else if (textcontent.length >= 100) {
-                alert("내용을 입력해주세요.(100자 이하)");
-            } else {
+            }
+            else {
                 alert("내용을 입력해주세요.(100자 이하)");
             }
 
@@ -651,7 +654,7 @@
                         '                                            <i class="far fa-thumbs-up"></i>\n' +
                         '                                        </a></p>\n' +
                         '                                    </div>\n' +
-                        '                                    <p id="review_content">\n' +
+                        '                                    <p id="review_content" class="break">\n' +
                         '                                        Lorem ipsum dolor sitamet sit ag elit.\n' +
                         '                                    </p>\n' +
                         '                                </div>\n' +
