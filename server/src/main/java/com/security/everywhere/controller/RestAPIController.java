@@ -164,6 +164,8 @@ public class RestAPIController {
         System.out.println("dddddd"+contentid);
         String result = festival.getOverview().replaceAll("<br>","");
         result = result.replaceAll("<br />","");
+        result = result.replaceAll("&middot;","");
+        result = result.replaceAll("&nbsp;","");
         festival.setOverview(result);
 
         return festival;
@@ -502,6 +504,7 @@ public class RestAPIController {
         result = responseResult.getResponse().getBody().getItems().getItem().getOverview().replaceAll("</br>","");
         result = responseResult.getResponse().getBody().getItems().getItem().getOverview().replaceAll("<br>","");
         result = result.replaceAll("<br />","");
+      //  result = result.replaceAll("<nbsp;>","");
         responseResult.getResponse().getBody().getItems().getItem().setOverview(result);
             return responseResult.getResponse().getBody().getItems().getItem();
         }
