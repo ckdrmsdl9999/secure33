@@ -1,0 +1,841 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Material Design for Bootstrap fonts and icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <!-- Material Design for Bootstrap CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <!--jquery ui-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
+    <title>Hello, world!</title>
+    <style>
+        .bmd-layout-container{
+            width: 600px;
+            height: 600px;
+        }
+
+
+        #custom-search-input .search-query {
+            padding-right: 3px;
+            padding-right: 4px \9;
+            padding-left: 3px;
+            padding-left: 4px \9;
+            /* IE7-8 doesn't have border-radius, so don't indent the padding */
+
+            margin-bottom: 0;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+        }
+
+        #custom-search-input button {
+            border: 0;
+            background: none;
+            /** belows styles are working good */
+            padding: 2px 5px;
+            margin-top: 2px;
+            position: relative;
+            left: -28px;
+            /* IE7-8 doesn't have border-radius, so don't indent the padding */
+            margin-bottom: 0;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            color:#D9230F;
+        }
+
+        .search-query:focus + button {
+            z-index: 3;
+        }
+        .col-xs-6 img{
+            width: 250px;
+            height: 200px;
+        }
+        #row_infor {
+            padding: 20px;
+        }
+
+        #content_img
+        {
+            height: 400px;
+        }
+        .content-item{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .content-items{
+            padding-top: 23px;
+        }
+
+        .content-item .row{
+            height: 25px;
+        }
+        .tourist_spot{
+            padding-top: 32px;
+        }
+        .horizontal-scroll {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            height: 300px;
+            white-space:nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .card {
+            display: inline-block;
+            margin-left: 28px;
+        }
+        .comment-wrapper .panel-body {
+            max-height:650px;
+            overflow:auto;
+        }
+
+        .media-list .media img {
+            width:64px;
+            height:64px;
+            border:2px solid #e5e7e8;
+        }
+
+        .media-list .media {
+            border-bottom:1px dashed #efefef;
+            margin-bottom:25px;
+        }
+
+        .card-img-overlay{
+            zoom: 1; /* ie 5,6,7 bug fix */
+            filter: alpha(opacity=80);
+            opacity: 0.8;
+            background-image: linear-gradient(transparent, transparent, gray);
+        }
+
+        .review_card{
+            margin-top: 1rem;
+        }
+        #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #0062cc;
+            background-color: transparent;
+            border-color: transparent transparent #f3f3f3;
+            border-bottom: 3px solid !important;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .nav-link {
+            border: 1px solid transparent;
+            border-top-left-radius: .25rem;
+            border-top-right-radius: .25rem;
+            color: #0062cc;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .nav-pills .nav-link, .nav-tabs .nav-link {
+            padding: 0.4286em 0.8575em;
+            font-size: .875rem;
+            font-weight: 500;
+            border: 0;
+        }
+        .best_review_img{
+            margin-left: -30px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="bmd-layout-container bmd-drawer-f-l bmd-drawer-overlay mx-auto">
+    <header class="bmd-layout-header mb-1" style="height: 11%">
+        <div class="navbar navbar-light bg-faded" style="height: 100%">
+            <button class="navbar-toggler" type="button" data-toggle="drawer" data-target="#dw-s2">
+                <span class="sr-only">Toggle drawer</span>
+                <i class="material-icons">menu</i>
+            </button>
+            <ul class="nav navbar-nav mx-auto">
+                <li class="nav-item"><h4>관광지</h4></li>
+            </ul>
+        </div>
+    </header>
+    <div class="card bg-dark text-white mx-auto">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+
+            </div>
+            <div class="card-img-overlay d-flex h-100 flex-column justify-content-end">
+                <h5 class="card-title"> </h5>
+                <p class="card-text"><i class="far fa-star"style="color:red"></i> 4.5</p>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+    </div>
+
+    <div id="dw-s2" class="bmd-layout-drawer bg-faded">
+        <header>
+            <a class="navbar-brand">Sidebar</a>
+        </header>
+        <ul class="list-group">
+            <a class="list-group-item"><i class="fas fa-user"></i>로그인</a>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="content-items border-bottom border-dark">
+            <div class="border-bottom content-item" id="tel">
+                <div class="row">
+                    <div class="col-2 text-truncate">
+                        <h5><p class="font-weight-bold">설명</p></h5>
+                    </div>
+                </div>
+                <p class="mt-2"></p>
+            </div>
+            <div class="border-bottom content-item" id="address">
+                <div class="row">
+                    <div class="col-2 ">
+                        <h5><p class="font-weight-bold">주소</p></h5>
+                    </div>
+                </div>
+                <p class="mt-2"></p>
+            </div>
+       <!--     <div class="border-bottom content-item" id="term">
+                <div class="row">
+                    <div class="col-2 ">
+                        <h5><p class="font-weight-bold">기간</p></h5>
+                    </div>
+                </div>
+                <p class="mt-2"> </p>
+            </div>-->
+
+        </div>
+        <div class="content-items border-bottom border-dark">
+            <div class="row">
+                <div class="col">
+                    <h5><p class="font-weight-bold">주간날씨</p></h5>
+                </div>
+                <div class="col-3">
+                    <p class="font-weight-bold">대기오염지수 : </p>
+                </div>
+                <div class="col-3" id="atmosphere">
+                    <!--  <p>나쁨 (80)</p>-->
+                </div>
+            </div>
+            <table class="table table-bordered text-center">
+                <thead id="dayday">
+           <!--     <tr>
+                          <th scope="col">월</th>
+                          <th scope="col">화</th>
+                          <th scope="col">수</th>
+                          <th scope="col">목</th>
+                          <th scope="col">금</th>
+                          <th scope="col">토</th>
+                          <th scope="col">일</th>
+                </tr>-->
+                </thead>
+                <tbody id="suncloud">
+             <!--   <tr>
+                                   <td><i class="fas fa-cloud-sun-rain"></i></td>
+                                   <td><i class="fas fa-cloud-rain"></i></td>
+                                   <td><i class="fas fa-cloud-rain"></i></td>
+                                   <td><i class="fas fa-cloud-rain"></i></td>
+                                   <td><i class="fas fa-cloud-rain"></i></td>
+                                   <td><i class="fas fa-cloud-rain"></i></td>
+                                   <td><i class="fas fa-cloud-rain"></i></td>
+                </tr>-->
+                <tr id="temperature">
+                <!--                 <td>21°C 22°C</td>
+                                 <td>21°C 22°C</td>
+                                 <td>21°C 22°C</td>
+                                 <td>21°C 22°C</td>
+                                 <td>21°C 22°C</td>
+                                 <td>21°C 22°C</td>
+                                 <td>21°C 22°C</td>-->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content-items">
+            <div class="row">
+                <div class="col-10 ">
+                    <h5><p class="font-weight-bold">주변 관광지</p></h5>
+                </div>
+                <div class="col-2 ">
+                    <a href="#">
+                        <p><i class="fas fa-plus"></i> more</p></a>
+                </div>
+            </div>
+            <div class="horizontal-scroll" id="tourtour">
+    <!--            <div class="card">
+                    <img src="http://placehold.it/200x140" />
+                    <div class="card-body">
+                        <p class="card-text">이름</p>
+                        <p class="card-text"><small class="text-muted">약 1km</small></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="http://placehold.it/200x140" />
+                    <div class="card-body">
+                        <p class="card-text">이름</p>
+                        <p class="card-text"><small class="text-muted">약 1km</small></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="http://placehold.it/200x140" />
+                    <div class="card-body">
+                        <p class="card-text">이름</p>
+                        <p class="card-text"><small class="text-muted">약 1km</small></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="http://placehold.it/200x140" />
+                    <div class="card-body">
+                        <p class="card-text">이름</p>
+                        <p class="card-text"><small class="text-muted">약 1km</small></p>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+        <div class="content-items">
+            <div class="row">
+                <div class="col-4 ">
+                    <h5><p class="font-weight-bold">리뷰</p></h5>
+                </div>
+            </div>
+            <div class="row bootstrap snippets">
+                <div class="col-6 col-offset-2 col-12">
+                    <div class="comment-wrapper">
+                        <div class="panel panel-info">
+                            <div class="label">
+                                Comment panel
+                            </div>
+                            <div class="panel-body">
+                                <textarea class="form-control" placeholder="write a comment..." ></textarea>
+                                <br>
+                                <button type="button" class="btn btn-info float-right">Post</button>
+                                <button type="button" class="mylocation">내위치주변</button>
+                                <div class="clearfix"></div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">인기 리뷰</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">모든 리뷰</a>
+                    </div>
+                </nav>
+                <div class="tab-content mt-4" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <!-- 긍정적 리뷰 -->
+                        <div class="card review_card mb-2" style="width: 35rem;">
+                            <div class="card-header">
+                                인기 리뷰(긍정적)
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <ul class="media-list">
+                                        <li class="media">
+                                            <a href="#" class="float-left mr-3 best_review_img">
+                                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">
+                                            </a>
+                                            <div class="media-body">
+                                                <strong class="text-success">MartinoMont</strong>
+                                                <span class="text-muted float-right">
+                                                <small class="text-muted">2019.08.11</small>
+                                            </span>
+                                                <p class="star_review">
+                                                    <i class="fas fa-star"></i> 4.8
+                                                </p>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                    Lorem ipsum dolor sit amet
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="row">
+                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>
+                                        <button class="btn btn-primary col-2">예</button> <button class="btn btn-primary col-2">아니오</button>
+                                    </div>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <!-- 부정적 리뷰 -->
+                        <div class="card review_card mb-4" style="width: 35rem;">
+                            <div class="card-header">
+                                인기 리뷰(부정적)
+                            </div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <ul class="media-list">
+                                        <li class="media">
+                                            <a href="#" class="float-left mr-3 best_review_img">
+                                                <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="rounded-circle">
+                                            </a>
+                                            <div class="media-body">
+                                                <strong class="text-success">MartinoMont</strong>
+                                                <span class="text-muted float-right">
+                                                <small class="text-muted">2019.08.11</small>
+                                            </span>
+                                                <p class="star_review">
+                                                    <i class="fas fa-star"></i> 4.8
+                                                </p>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                    Lorem ipsum dolor sit amet
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="row">
+                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>
+                                        <button class="btn btn-primary col-2">예</button> <button class="btn btn-primary col-2">아니오</button>
+                                    </div>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <ul class="list-unstyled">
+                            <li class="media mb-1">
+                                <a href="#" class="float-left mr-4">
+                                    <img  src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">
+                                </a>
+                                <div class="media-body">
+                                    <strong class="text-success">MartinoMont</strong>
+                                    <span class="text-muted float-right">
+                                     <small class="text-muted">2019.08.11</small>
+                                    </span>
+                                    <p class="star_review">
+                                        <i class="fas fa-star"></i> 4.8
+                                    </p>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Lorem ipsum dolor sit amet
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="media mb-1">
+                                <a href="#" class="float-left mr-4">
+                                    <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="rounded-circle">
+                                </a>
+                                <div class="media-body">
+                                <span class="text-muted float-right">
+                                    <small class="text-muted">2019.08.11</small>
+                                </span>
+
+                                    <strong class="text-success">LaurenceCorreil</strong>
+                                    <p class="star_review">
+                                        <i class="fas fa-star"></i> 4.8
+                                    </p>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                        Lorem ipsum dolor <a href="#">#ipsumdolor </a>adipiscing elit.
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="media mb-1">
+                                <a href="#" class="float-left mr-4">
+                                    <img src="https://bootdey.com/img/Content/user_3.jpg" alt=""class="rounded-circle">
+                                </a>
+                                <div class="media-body">
+                        <span class="text-muted float-right">
+                            <small class="text-muted">2019.08.11</small>
+                         </span>
+                                    <strong class="text-success">JohnNida</strong>
+                                    <p class="star_review">
+                                        <i class="fas fa-star"></i> 4.8
+                                    </p>
+                                    <p>
+                                        Lorem ipsum dolor sitamet sit amet, consectetur adipiscing elit.
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+</body>
+<script type="text/javascript">
+    var tourcontentid = new Array();
+    var myy;//latitude
+    var myx;//longtitude
+    var param = document.location.href.split("/");
+    var thumbnail;
+    var addr="서울특별시";
+    var mapx=param[6];
+    var mapy=param[7];
+
+    var val=param[5];
+    var contentX;//해당content축제의 x값을 html에저장
+    var contentY;//해당content축제의 y값을 html에저장
+    //  alert(val+"param값");
+   // $( document ).ready(function(){  alert(param[0]+"*"+param[1]+"*"+param[2]+"*"+mapx+"*"+mapy)} );
+    function getLocation() {
+        if (navigator.geolocation) { // GPS를 지원하면
+            navigator.geolocation.getCurrentPosition(function(position) {
+                myy=position.coords.latitude;myx=position.coords.longitude;
+                //alert("위도:"+position.coords.latitude + '경도:' + position.coords.longitude);
+            }, function(error) {
+                console.error(error);
+            }, {
+                enableHighAccuracy: false,
+                maximumAge: 0,
+                timeout: Infinity
+            });
+        } else {
+            alert('GPS를 지원하지 않습니다');
+        }
+    }
+    $( document ).ready(function() {//기후정보
+        var param = {"addr": addr, "mapX": mapx, "mapY": mapy,"contentid" : val};
+        $.ajax({
+            url: "/api/weatherInfo2",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(param),
+        }).done(function (data) {
+          //  alert(data.length);
+            for (var i = 0; i < data.length; i++) {
+                $festival_item4 = $('<td>21°C 23°C</td>\n');
+                $festival_item5 = $('<th scope="col">월</th>\n');
+                $festival_item5.text(data[i].dayOfTheWeek);
+                $("#dayday").append($festival_item5);
+                $festival_item3 = $('<td><i class=""></i></td>\n');
+                if(data[i].state=="구름 많음"||data[i].state=="흐림"||data[i].state=="구름많음")
+                    $festival_item3.find('i').addClass("fas fa-cloud");
+                else if(data[i].state=="구름많고 비"||data[i].state=="흐리고 비")
+                    $festival_item3.find('i').addClass("fas fa-cloud-rain");
+                else if(data[i].state=="맑음")
+                    $festival_item3.find('i').addClass("fas fa-cloud");
+                else if(data[i].state=="구름많고 눈"||data[i].state=="구름많고 눈"||data[i].state=="구름많고 비/눈"||data[i].state=="구름많고 눈/비"
+                    +data[i].state=="흐리고 눈"||data[i].state=="흐리고 비/눈"|data[i].state=="흐리고 눈/비")
+                    $festival_item3.find('i').addClass("fas fa-snowflake");
+                $("#suncloud").append($festival_item3);
+                if(i==0||i==1){//처음 이틀만 소수점형태라 2개자름
+                    data[i].minTemp=data[i].minTemp.substring(0,2);
+                    data[i].maxTemp=data[i].maxTemp.substring(0,2);}
+                //  data[i].maxTemp=data[i].maxTemp.substring(data[i].maxTemp.length-2);}
+                $festival_item4.text("Max-"+data[i].minTemp+" "+"Min-"+data[i].maxTemp);
+                $("#temperature").append($festival_item4);
+            }
+            //alert("띄우기일단완료");
+            checker=0;
+        }).fail(function () {
+        });
+    });
+    var aa="좋음"
+    var bb="보통"
+    var cc="나쁨"
+    var dd="매우나쁨"
+    var ee="정보X"
+    var checker=0;
+    $( document ).ready(function() {//근처기후
+        var param = { "mapX":mapx,"mapY":mapy, "information": "1", "contentid" : val};
+        var hi="hi";
+        $.ajax({
+            url: "/api/airInfo2",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(param),
+        }).done(function (data) {
+            //      alert("시작");
+            //   alert(data.khaiGrade);
+            for (var i = 0; i < 10; i++) {
+                if(data[i].khaiGrade==""&&i<9||checker==1)
+                {  continue;}
+                $festival_item7 = $('<p></p>\n');
+                $festival_item7 = $('<p></p>\n');
+                if(data[i].khaiGrade==1) {$festival_item7.text(aa);checker=1;}
+                if(data[i].khaiGrade==2){$festival_item7.text(bb);
+                    //   alert("값발견");
+                    checker=1;}
+                if(data[i].khaiGrade==3){$festival_item7.text(cc);checker=1;}
+                if(data[i].khaiGrade==4){$festival_item7.text(dd);checker=1;}
+                if(data[i].khaiGrade==""){$festival_item7.text(ee);checker=1;}//마지막에있으면 ㅇㅇ 만약 5개중 3번째에있으면
+            }
+            $("#atmosphere").append($festival_item7);
+            checker=0;
+        }).fail(function () {
+        });
+    });
+
+     $( document ).ready(function() {//근처관광지
+         var param = {"contentid" : val ,"mapX":mapx,"mapY":mapy,"numOfRows":"10","pageNo":"1","arragne":"E","radius":"5000"};
+         getLocation()
+         $.ajax({
+             url: "/api/nearbyTour2",
+             type: "POST",
+             dataType: "json",
+             contentType: "application/json",
+             data: JSON.stringify(param),
+         }).done(function (data) {
+          //   alert(data.length+"개의 관광지가 근처에있어");
+             for (var i = 0; i < data.length; i++) {
+               //  alert("데이터의거리값:"+data[i].dist+"그림src"+data[i].firstimage);
+                 $festival_item5 = $('<div class="card" width="300" height="160" >\n'+
+                     '<img src="http://placehold.it/200x140" width="300" height="170"/>\n'+
+                     '<a href="#">\n'+
+                         '<div class="card-body">\n'+
+                             '<p class="card-text">이름</p>\n'+
+                             '<i class="card-text"><small class="text-muted">약 1km임</small></i>\n'+
+                         '</div>'+
+                     '</a>'+
+                     '</div>');
+                 if(data[i].firstimage2.length==0)
+                 { $festival_item5.children('img').attr('src',"/img/alt.png");}
+                 else
+                 {$festival_item5.children('img').attr('src',data[i].firstimage2);}
+                 //$festival_item5.children('img').attr('src',data[i].firstimage2);
+                 $festival_item5.find('a').attr('href',"/content/tourcontent/"+data[i].contentid+"/"+data[i].mapx+"/"+data[i].mapy);////
+                 $festival_item5.find('p').text(data[i].title);
+                 $festival_item5.find('small').text(data[i].dist+'미터');
+
+
+                 $("#tourtour").append($festival_item5);
+             }
+
+         }).fail(function () {
+         });
+     });
+
+     $(document).on('click','.mylocation',function (){//내위치기반근처관광지
+
+         alert("myyx값"+myx+"myy값"+myy);
+        var param = {"contentid" : val ,"mapX":myx,"mapY":myy,"numOfRows":"10","pageNo":"1","arragne":"E","radius":"5000"};
+
+        $.ajax({
+            url: "/api/nearbyTour2",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(param),
+        }).done(function (data) {
+            //   alert(data.length+"개의 관광지가 근처에있어");
+            $("#tourtour").children().remove();
+            for (var i = 0; i < data.length; i++) {
+                //  alert("데이터의거리값:"+data[i].dist+"그림src"+data[i].firstimage);
+                $festival_item5 = $('<div class="card" width="300" height="160" >\n'+
+                    '<img src="http://placehold.it/200x140" width="300" height="170"/>\n'+
+                    '<a href="#">\n'+
+                    '<div class="card-body">\n'+
+                    '<p class="card-text">이름</p>\n'+
+                    '<i class="card-text"><small class="text-muted">약 1km임</small></i>\n'+
+                    '</div>'+
+                    '</a>'+
+                    '</div>');
+                $festival_item5.children('img').attr('src',data[i].firstimage2);
+                $festival_item5.find('a').attr('href',"/content/tourcontent/"+data[i].contentid+"/"+data[i].mapx+"/"+data[i].mapy);////
+                $festival_item5.find('p').text(data[i].title);
+                $festival_item5.find('small').text(data[i].dist+'미터');
+
+
+                $("#tourtour").append($festival_item5);
+            }
+
+        }).fail(function () {
+        });
+    });
+    //////////////////////////////////////////
+    //alert(param[1]);
+    $( document ).ready(function() {//관광지세부정보
+        $.ajax({
+            url: "/api/detailCommon/tour",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: param[5],
+        }).done(function (data) {
+
+            $('.card-title').text(data.title);
+            thumbnail = data.firstimage;
+            $('#address p:nth-child(2)').text(data.addr1);
+           // $('#term p:nth-child(2)').text(StringtoDate(data.createdtime) + ' ~ ' + StringtoDate(data.createdtime));
+            $('#tel p:nth-child(2)').text(data.overview);
+           //   alert(data.addr1+" "+data.createdtime+" "+data.overview)
+            $.ajax({
+                url: "/api/tourImages",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: param[5],
+            }).done(function (data) {
+      //          alert("data의수"+data.length);
+                if (data.length == 0) {
+                    $carousel_item = $('<div class="carousel-item active">\n' +
+                        '                <img src="" class="d-block img-fluid " style="width: 600px; height:400px" alt="...">\n' +
+                        '            </div>');
+                    $carousel_item.find('img').attr('src', thumbnail);
+                    $('.carousel-inner').append($carousel_item);
+                } else {
+                    for (var i = 0; i < 1; i++) {
+                        $carousel_item = $('<div class="carousel-item">\n' +
+                            '                <img src="" class="d-block img-fluid" style="width: 600px; height:400px" alt="...">\n' +
+                            '            </div>');
+                        if (i == 0)
+                            $carousel_item.addClass('active');
+                        $carousel_item.find('img').attr("src", data[i].originimgurl);
+                        $('.carousel-inner').append($carousel_item);
+                    }
+                }
+            }).fail(function () {
+                alert('fail');
+            });
+        }).fail(function () {
+            alert('fail');
+        });
+    });
+    ///////////////////////////////////////////
+    $.ajax({
+        url: "/api/reviewList",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: val,
+    }).done(function (data) {
+
+        for(var i=0; i<data.length ;i++) {
+            $review_form = $('<li class="media mb-1" style="width: 550px">\n' +
+                '                                <a href="#" class="float-left mr-4">\n' +
+                '                                    <img src="https://bootdey.com/img/Content/user_3.jpg" alt=""class="rounded-circle">\n' +
+                '                                </a>\n' +
+                '                                <div class="media-body">\n' +
+                '                        <span class="text-muted float-right">\n' +
+                '                            <small class="text-muted" id="review_date">2019.08.11</small>\n' +
+                '                         </span>\n' +
+                '                                    <strong class="text-success" id="UserId">JohnNida</strong>\n' +
+                '                                    <div class="row">\n' +
+                '                                        <p class="star_review col-10">\n' +
+                '                                            <i class="fas fa-star"></i>\n' +
+                '                                        </p>\n' +
+                '                                        <a href="javascript:void(0);" onclick=""><p class="like_review col-2">\n' +
+                '                                            <i class="far fa-thumbs-up"></i>\n' +
+                '                                        </a></p>\n' +
+                '                                    </div>\n' +
+                '                                    <p id="review_content">\n' +
+                '                                        Lorem ipsum dolor sitamet sit ag elit.\n' +
+                '                                    </p>\n' +
+                '                                </div>\n' +
+                '                            </li>');
+
+            $review_form.find('#UserId').text(data[i].userId);
+            $review_form.find('#review_date').text(data[i].date);
+            $review_form.find('.star_review').append(data[i].star);
+            $review_form.find('.like_review').append(data[i].likecount);
+            $review_form.find('#review_content').text(data[i].textcontent);
+            $review_form.find('a').attr("onclick","like_click("+data[i].id+")");
+
+
+            $('.list-unstyled').append($review_form);
+        }
+
+        $no_review = $('<li class="mt-4 text-center" style="height: 200px; margin-top: 6.5rem!important;\n"> 리뷰가 없습니다. </li>');
+
+        if(data.length == 0)
+            $('.list-unstyled').append($no_review);
+
+    }).fail(function () {
+        alert('fail3');
+    });
+
+
+    //긍정적 인기리뷰 불러옴
+    $.ajax({
+        url: "/api/popularReviewList_pos",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: val,
+    }).done(function (data) {
+        if(data.length == 0) {
+            $no_review = $('<li class="mt-4 text-center" style="height: 200px; margin-top: 6.5rem!important;\n"> 긍정적 인기 리뷰가 없습니다. </li>');
+            $('.tab-pane.fade.show.active').append($no_review);
+
+        }else {
+            $review_form = $('<div class="card review_card mb-2" style="width: 35rem;">\n' +
+                '                            <div class="card-header">\n' +
+                '                                인기 리뷰(긍정적)\n' +
+                '                            </div>\n' +
+                '                            <div class="card-body">\n' +
+                '                                <blockquote class="blockquote mb-0">\n' +
+                '                                    <ul class="media-list">\n' +
+                '                                        <li class="media">\n' +
+                '                                            <a href="#" class="float-left mr-3 best_review_img">\n' +
+                '                                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">\n' +
+                '                                            </a>\n' +
+                '                                            <div class="media-body">\n' +
+                '                                                <strong class="text-success" id="userId"></strong>\n' +
+                '                                                <span class="text-muted float-right">\n' +
+                '                                                <small class="text-muted" id="review_date">2019.08.11</small>\n' +
+                '                                            </span>\n' +
+                '                                                <p class="star_review">\n' +
+                '                                                    <i class="fas fa-star"></i> \n' +
+                '                                                </p>\n' +
+                '                                                <p id="textcontent">\n' +
+                '                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n' +
+                '                                                    Lorem ipsum dolor sit amet\n' +
+                '                                                </p>\n' +
+                '                                            </div>\n' +
+                '                                        </li>\n' +
+                '                                    </ul>\n' +
+                '                                    <div class="row">\n' +
+                '                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>\n' +
+                '                                        <button class="btn btn-primary col-2">예</button> \n' +
+                '                                    </div>\n' +
+                '                                </blockquote>\n' +
+                '                            </div>\n' +
+                '                        </div>');
+
+            $review_form.find('#userId').text(data[0].userId);
+            $review_form.find('#review_date').text(data[0].date);
+            $review_form.find('.star_review').append(data[0].star);
+            $review_form.find('#textcontent').text(data[0].textcontent);
+
+            $('.tab-pane.fade.show.active').append($review_form);
+        }
+
+    }).fail(function () {
+        alert('fail4');
+    });
+
+
+
+
+
+    function StringtoDate(str) {
+        var date;
+        date = str.substring(0,4);
+        date += '/';
+        date += str.substring(4,6);
+        date += '/';
+        date += str.substring(6,8);
+
+        return date;
+    }
+
+    /*]]>*/
+</script>
+</html>

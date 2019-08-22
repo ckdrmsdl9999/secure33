@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        // $(document).on('click', '#login', function() {
+        //     var nickName = document.getElementById("nickName").value;
+        //     var pw = document.getElementById("pw").value;
+        //     var param = {"nickName": nickName, "pw": pw};
+        //     $.ajax({
+        //         url: "/login/login",
+        //         type: "POST",
+        //         dataType: "json",
+        //         contentType: "application/json",
+        //         data: JSON.stringify(param)
+        //     }).done(function(data) {
+        //         if(data != null)
+        //             alert("로그인 성공");
+        //         else
+        //             alert("로그인 실패");
+        //     }).fail(function(){
+        //         alert("error");
+        //     });
+        // });
+        //
+        // //로그아웃 세션정보필요
+        //
+        //
+        // // 회원가입
+        // $(document).on('click', '#insert', function() {
+        //     var nickName = document.getElementById("nickName").value;
+        //     var pw = document.getElementById("pw").value;
+        //     var param = {"nickName": nickName, "pw": pw};
+        //     $.ajax({
+        //         url: "/login/addUser",
+        //         type: "POST",
+        //         dataType: "json",
+        //         contentType: "application/json",
+        //         data: JSON.stringify(param)
+        //     }).done(function(data) {
+        //         if(data == true)
+        //             alert("inserted " + nickName);
+        //         else
+        //             alert("중복되는 닉네임입니다.")
+        //     }).fail(function() {
+        //         alert("error");
+        //     })
+        // })
+        //
+        // //회원탈퇴 세션정보필요
+        // $(document).on('click', '#delete', function() {
+        //     var nickName = document.getElementById("nickName").value;
+        //     var pw = document.getElementById("pw").value;
+        //     var param = {"nickName": nickName, "pw": pw};
+        //     $.ajax({
+        //         url: "/login/deleteUser",
+        //         type: "POST",
+        //         dataType: "json",
+        //         contentType: "application/json",
+        //         data: JSON.stringify(param)
+        //     }).done(function(data) {
+        //         alert("deleted");
+        //     }).fail(function() {
+        //         alert("error");
+        //     })
+        // })
+        //
+        // // 회원조회
+        // $(document).on('click', '#userInfo', function() {
+        //     var param = "";
+        //     $.ajax({
+        //         url: "/login/userInfo",
+        //         type: "POST",
+        //         dataType: "json",
+        //         contentType: "application/json",
+        //         data: JSON.stringify(param)
+        //     }).done(function(data) {
+        //         for(var i=0;i<data.length;i++) {
+        //             alert(data[i].nickName + " " + data[i].pw);
+        //         }
+        //     }).fail(function(){
+        //         alert("fail");
+        //     })
+        // })
+
+    </script>
+</head>
+<body>
+    닉네임:<input type="text" id="nickName"><br/>
+    비밀번호:<input type="password" id="pw"><br/>
+    <input type="button" value="로그인" id="login">
+    <input type="button" value="로그아웃" id="logout"><br/>
+    <input type="button" value="insert" id="insert">
+    <input type="button" value="delete" id="delete">
+    <input type="button" value="userInfo" id="userInfo">
+    <h1>hello</h1>
+    <p class = "msg" th:text = "${session.id}"></p>
+</body>
+</html>
