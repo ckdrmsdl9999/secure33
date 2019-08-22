@@ -152,7 +152,8 @@ public class RestAPIController {
 
 
     @PostMapping("/writeReview")
-    public void writeReview(@RequestBody Review review) {
+    public void writeReview(@RequestBody Review review){
+    System.out.println(review.getTextcontent()+review.getContentId());
         reviewRepository.save(review);
     }
 
@@ -160,7 +161,7 @@ public class RestAPIController {
         public Festival festivalContent(@RequestBody String contentid) {
         Festival festival;
         festival = festivalRepository.findByContentId(contentid);
-
+        System.out.println("dddddd"+contentid);
         String result = festival.getOverview().replaceAll("<br>","");
         result = result.replaceAll("<br />","");
         festival.setOverview(result);
@@ -313,13 +314,13 @@ public class RestAPIController {
     @PostMapping("/nearbyTour2")
     public List<TourItem> nearbyTour2(@RequestBody NearbyTourParam nearbyTourParam) throws IOException {
         var contentIdNear=nearbyTourParam.getContentid();
-        System.out.println("/nearbyTour2의"+contentIdNear+"입니다");
+       // System.out.println("/nearbyTour2의"+contentIdNear+"입니다");
 
 
 
-        System.out.println(nearbyTourParam.getMapX()+" "+nearbyTourParam.getMapY()+"이랑임");
-        System.out.println("/nearbytour2에서 관광지를 찾기위한 x,y값"+nearbyTourParam.getMapX()+" "+nearbyTourParam.getMapY()+nearbyTourParam.getAddr1()+
-        nearbyTourParam.getNumOfRows()+" "+nearbyTourParam.getArrange()+" "+nearbyTourParam.getRadius());
+       // System.out.println(nearbyTourParam.getMapX()+" "+nearbyTourParam.getMapY()+"이랑임");
+       //  System.out.println("/nearbytour2에서 관광지를 찾기위한 x,y값"+nearbyTourParam.getMapX()+" "+nearbyTourParam.getMapY()+nearbyTourParam.getAddr1()+
+       // nearbyTourParam.getNumOfRows()+" "+nearbyTourParam.getArrange()+" "+nearbyTourParam.getRadius());
         StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList"); /*URL*/
         urlBuilder.append("?")
         .append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8))
