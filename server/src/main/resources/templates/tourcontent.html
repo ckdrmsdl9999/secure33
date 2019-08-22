@@ -271,8 +271,8 @@
                     <h5><p class="font-weight-bold">주변 관광지</p></h5>
                 </div>
                 <div class="col-2 ">
-                    <a href="#">
-                        <p><i class="fas fa-plus"></i> more</p></a>
+                    <a href="#" class="mylocation2">
+                        <p><i class="fas fa"></i>나의주변</p></a>
                 </div>
             </div>
             <div class="horizontal-scroll" id="tourtour">
@@ -307,6 +307,7 @@
             </div>
         </div>
 
+
         <div class="content-items">
             <div class="row">
                 <div class="col-4 ">
@@ -317,14 +318,33 @@
                 <div class="col-6 col-offset-2 col-12">
                     <div class="comment-wrapper">
                         <div class="panel panel-info">
+
                             <div class="label">
-                                Comment panel
+                                <div class="row">
+                                    <div class="col-2">리뷰적기</div>
+                                    <div class="col-3">
+                                        <i class="fas fa-star"></i>
+                                        <select id="inputState" style="width: 80px;">
+                                            <option selected>5.0</option>
+                                            <option>4.5</option>
+                                            <option>4.0</option>
+                                            <option>3.5</option>
+                                            <option>3.0</option>
+                                            <option>2.5</option>
+                                            <option>2.0</option>
+                                            <option>1.5</option>
+                                            <option>1.0</option>
+                                            <option>0.5</option>
+                                            <option>0.0</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="panel-body">
                                 <textarea class="form-control" placeholder="write a comment..." ></textarea>
                                 <br>
-                                <button type="button" class="btn btn-info float-right">Post</button>
-                                <button type="button" class="mylocation">내위치주변</button>
+                                <button class="btn btn-info float-right">Post</button>
                                 <div class="clearfix"></div>
                                 <hr>
                             </div>
@@ -341,130 +361,77 @@
                 <div class="tab-content mt-4" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <!-- 긍정적 리뷰 -->
-                        <div class="card review_card mb-2" style="width: 35rem;">
-                            <div class="card-header">
-                                인기 리뷰(긍정적)
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <ul class="media-list">
-                                        <li class="media">
-                                            <a href="#" class="float-left mr-3 best_review_img">
-                                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">
-                                            </a>
-                                            <div class="media-body">
-                                                <strong class="text-success">MartinoMont</strong>
-                                                <span class="text-muted float-right">
-                                                <small class="text-muted">2019.08.11</small>
-                                            </span>
-                                                <p class="star_review">
-                                                    <i class="fas fa-star"></i> 4.8
-                                                </p>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Lorem ipsum dolor sit amet
-                                                </p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="row">
-                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>
-                                        <button class="btn btn-primary col-2">예</button> <button class="btn btn-primary col-2">아니오</button>
-                                    </div>
-                                </blockquote>
-                            </div>
-                        </div>
-                        <!-- 부정적 리뷰 -->
-                        <div class="card review_card mb-4" style="width: 35rem;">
-                            <div class="card-header">
-                                인기 리뷰(부정적)
-                            </div>
-                            <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <ul class="media-list">
-                                        <li class="media">
-                                            <a href="#" class="float-left mr-3 best_review_img">
-                                                <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="rounded-circle">
-                                            </a>
-                                            <div class="media-body">
-                                                <strong class="text-success">MartinoMont</strong>
-                                                <span class="text-muted float-right">
-                                                <small class="text-muted">2019.08.11</small>
-                                            </span>
-                                                <p class="star_review">
-                                                    <i class="fas fa-star"></i> 4.8
-                                                </p>
-                                                <p>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Lorem ipsum dolor sit amet
-                                                </p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="row">
-                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>
-                                        <button class="btn btn-primary col-2">예</button> <button class="btn btn-primary col-2">아니오</button>
-                                    </div>
-                                </blockquote>
-                            </div>
-                        </div>
+                        <!--                        <div class="card review_card mb-2" style="width: 35rem;">-->
+                        <!--                            <div class="card-header">-->
+                        <!--                                인기 리뷰(긍정적)-->
+                        <!--                            </div>-->
+                        <!--                            <div class="card-body">-->
+                        <!--                                <blockquote class="blockquote mb-0">-->
+                        <!--                                    <ul class="media-list">-->
+                        <!--                                        <li class="media">-->
+                        <!--                                            <a href="#" class="float-left mr-3 best_review_img">-->
+                        <!--                                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">-->
+                        <!--                                            </a>-->
+                        <!--                                            <div class="media-body">-->
+                        <!--                                                <strong class="text-success">MartinoMont</strong>-->
+                        <!--                                                <span class="text-muted float-right">-->
+                        <!--                                                <small class="text-muted">2019.08.11</small>-->
+                        <!--                                            </span>-->
+                        <!--                                                <p class="star_review">-->
+                        <!--                                                    <i class="fas fa-star"></i> 4.8-->
+                        <!--                                                </p>-->
+                        <!--                                                <p>-->
+                        <!--                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+                        <!--                                                    Lorem ipsum dolor sit amet-->
+                        <!--                                                </p>-->
+                        <!--                                            </div>-->
+                        <!--                                        </li>-->
+                        <!--                                    </ul>-->
+                        <!--                                    <div class="row">-->
+                        <!--                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>-->
+                        <!--                                        <button class="btn btn-primary col-2">예</button> <button class="btn btn-primary col-2">아니오</button>-->
+                        <!--                                    </div>-->
+                        <!--                                </blockquote>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--                        &lt;!&ndash; 부정적 리뷰 &ndash;&gt;-->
+                        <!--                        <div class="card review_card mb-4" style="width: 35rem;">-->
+                        <!--                            <div class="card-header">-->
+                        <!--                                인기 리뷰(부정적)-->
+                        <!--                            </div>-->
+                        <!--                            <div class="card-body">-->
+                        <!--                                <blockquote class="blockquote mb-0">-->
+                        <!--                                    <ul class="media-list">-->
+                        <!--                                        <li class="media">-->
+                        <!--                                            <a href="#" class="float-left mr-3 best_review_img">-->
+                        <!--                                                <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="rounded-circle">-->
+                        <!--                                            </a>-->
+                        <!--                                            <div class="media-body">-->
+                        <!--                                                <strong class="text-success">MartinoMont</strong>-->
+                        <!--                                                <span class="text-muted float-right">-->
+                        <!--                                                <small class="text-muted">2019.08.11</small>-->
+                        <!--                                            </span>-->
+                        <!--                                                <p class="star_review">-->
+                        <!--                                                    <i class="fas fa-star"></i> 4.8-->
+                        <!--                                                </p>-->
+                        <!--                                                <p>-->
+                        <!--                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+                        <!--                                                    Lorem ipsum dolor sit amet-->
+                        <!--                                                </p>-->
+                        <!--                                            </div>-->
+                        <!--                                        </li>-->
+                        <!--                                    </ul>-->
+                        <!--                                    <div class="row">-->
+                        <!--                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>-->
+                        <!--                                        <button class="btn btn-primary col-2">예</button> <button class="btn btn-primary col-2">아니오</button>-->
+                        <!--                                    </div>-->
+                        <!--                                </blockquote>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <ul class="list-unstyled">
-                            <li class="media mb-1">
-                                <a href="#" class="float-left mr-4">
-                                    <img  src="https://bootdey.com/img/Content/user_1.jpg" alt="" class="rounded-circle">
-                                </a>
-                                <div class="media-body">
-                                    <strong class="text-success">MartinoMont</strong>
-                                    <span class="text-muted float-right">
-                                     <small class="text-muted">2019.08.11</small>
-                                    </span>
-                                    <p class="star_review">
-                                        <i class="fas fa-star"></i> 4.8
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Lorem ipsum dolor sit amet
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="media mb-1">
-                                <a href="#" class="float-left mr-4">
-                                    <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="rounded-circle">
-                                </a>
-                                <div class="media-body">
-                                <span class="text-muted float-right">
-                                    <small class="text-muted">2019.08.11</small>
-                                </span>
+                        <ul class="list-unstyled" style="margin-bottom: 200px;">
 
-                                    <strong class="text-success">LaurenceCorreil</strong>
-                                    <p class="star_review">
-                                        <i class="fas fa-star"></i> 4.8
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Lorem ipsum dolor <a href="#">#ipsumdolor </a>adipiscing elit.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="media mb-1">
-                                <a href="#" class="float-left mr-4">
-                                    <img src="https://bootdey.com/img/Content/user_3.jpg" alt=""class="rounded-circle">
-                                </a>
-                                <div class="media-body">
-                        <span class="text-muted float-right">
-                            <small class="text-muted">2019.08.11</small>
-                         </span>
-                                    <strong class="text-success">JohnNida</strong>
-                                    <p class="star_review">
-                                        <i class="fas fa-star"></i> 4.8
-                                    </p>
-                                    <p>
-                                        Lorem ipsum dolor sitamet sit amet, consectetur adipiscing elit.
-                                    </p>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -474,11 +441,16 @@
 
     </div>
 
-
 </div>
 </body>
 <script type="text/javascript">
     var tourcontentid = new Array();
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+    today = yyyy + '/' + mm + '/' + dd;
+
     var myy;//latitude
     var myx;//longtitude
     var param = document.location.href.split("/");
@@ -622,9 +594,9 @@
          });
      });
 
-     $(document).on('click','.mylocation',function (){//내위치기반근처관광지
+     $(document).on('click',".mylocation2",function (){//내위치기반근처관광지
 
-         alert("myyx값"+myx+"myy값"+myy);
+       //  alert("myyx값"+myx+"myy값"+myy);
         var param = {"contentid" : val ,"mapX":myx,"mapY":myy,"numOfRows":"10","pageNo":"1","arragne":"E","radius":"5000"};
 
         $.ajax({
@@ -820,6 +792,116 @@
     }).fail(function () {
         alert('fail4');
     });
+
+    //부정적 인기리뷰 불러옴
+    $.ajax({
+        url: "/api/popularReviewList_nav",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json",
+        data: val,
+    }).done(function (data) {
+        if(data.length == 0) {
+            $no_review = $('<li class="mt-4 text-center" style="height: 200px; margin-top: 6.5rem!important;\n"> 부정적 인기 리뷰가 없습니다. </li>');
+            $('.tab-pane.fade.show.active').append($no_review);
+
+        }else {
+            $review_form = $(' <div class="card review_card mb-4" style="width: 35rem;">\n' +
+                '                            <div class="card-header">\n' +
+                '                                인기 리뷰(부정적)\n' +
+                '                            </div>\n' +
+                '                            <div class="card-body">\n' +
+                '                                <blockquote class="blockquote mb-0">\n' +
+                '                                    <ul class="media-list">\n' +
+                '                                        <li class="media">\n' +
+                '                                            <a href="#" class="float-left mr-3 best_review_img">\n' +
+                '                                                <img src="https://bootdey.com/img/Content/user_2.jpg" alt="" class="rounded-circle">\n' +
+                '                                            </a>\n' +
+                '                                            <div class="media-body">\n' +
+                '                                                <strong class="text-success" id="userId">MartinoMont</strong>\n' +
+                '                                                <span class="text-muted float-right">\n' +
+                '                                                <small class="text-muted" id="review_date">2019.08.11</small>\n' +
+                '                                            </span>\n' +
+                '                                                <p class="star_review">\n' +
+                '                                                    <i class="fas fa-star"></i>\n' +
+                '                                                </p>\n' +
+                '                                                <p class="textcontent">\n' +
+                '                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n' +
+                '                                                    Lorem ipsum dolor sit amet\n' +
+                '                                                </p>\n' +
+                '                                            </div>\n' +
+                '                                        </li>\n' +
+                '                                    </ul>\n' +
+                '                                    <div class="row">\n' +
+                '                                        <footer class="blockquote-footer col-7"> 이 리뷰가 도움이 되었습니까?</footer>\n' +
+                '                                        <button class="btn btn-primary col-2">예</button>\n' +
+                '                                    </div>\n' +
+                '                                </blockquote>\n' +
+                '                            </div>\n' +
+                '                        </div>');
+
+            $review_form.find('#userId').text(data[0].userId);
+            $review_form.find('#review_date').text(data[0].date);
+            $review_form.find('.star_review').append(data[0].star);
+            $review_form.find('.textcontent').text(data[0].textcontent);
+
+            $('.tab-pane.fade.show.active').append($review_form);
+        }
+
+    }).fail(function (request, error) {
+        //alert('fail5');
+        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    });
+
+    // 리뷰 포스트 버튼
+    $(document).on('click','.btn.btn-info.float-right',function () {
+        //form-control
+
+        var star = $('#inputState option:selected').text();
+        var textcontent = $('.form-control').val();
+        var param = {"contentId" : val, "userId" : "익명", "textcontent": textcontent, "star": star, "date": today };
+
+        if (textcontent != null) {
+            $.ajax({
+                url: "/api/writeReview",
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json",
+                data: JSON.stringify(param),
+            }).done(function (data) {
+                location.reload();
+            }).fail(function (data) {
+                alert('fail');
+            });
+        }
+        else if(textcontent.length >= 100){
+            alert("내용을 입력해주세요.(100자 이하)");
+        }
+        else{
+            alert("내용을 입력해주세요.(100자 이하)");
+        }
+
+    });
+
+    // 좋아요 버튼
+    function like_click(reviewid){
+
+        var parameter = reviewid;
+
+        $.ajax({
+            url: "/api/likeButton",
+            type: "POST",
+            dataType: "text",
+            contentType: "application/json",
+            data: String(parameter),
+        }).done(function () {
+            location.reload();
+        }).fail(function (request, error) {
+            alert('fail');
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        });
+    }
+
 
 
 
