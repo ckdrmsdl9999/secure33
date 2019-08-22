@@ -3,6 +3,7 @@ package com.security.everywhere.Scheduler;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.security.everywhere.configuration.GlobalPropertySource;
 import com.security.everywhere.model.Festival;
 import com.security.everywhere.model.TourImages;
 import com.security.everywhere.repository.TourImagesRepository;
@@ -13,6 +14,8 @@ import com.security.everywhere.response.tourCommonInfo.ComInfoItem;
 import com.security.everywhere.response.tourCommonInfo.ComInfoResponse;
 import com.security.everywhere.response.tourImages.ImagesItem;
 import com.security.everywhere.response.tourImages.ImagesResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +31,8 @@ public class GetFestivalInfo {
     private StringBuilder urlBuilder;
     private URL url;
     private final ObjectMapper mapper;
+    private static Logger logger = LoggerFactory.getLogger(GlobalPropertySource.class);
+
 
     public GetFestivalInfo(FestivalRepository festivalRepository
             , TourImagesRepository tourImagesRepository
@@ -131,6 +136,7 @@ public class GetFestivalInfo {
                     tourImagesRepository.save(new TourImages(imagesItem));
                 }
             } catch (NullPointerException e) {
+                logger.debug("Null error");
             }
             count += 1;
         }

@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -153,7 +154,6 @@ public class RestAPIController {
 
     @PostMapping("/writeReview")
     public void writeReview(@RequestBody Review review){
-    System.out.println(review.getTextcontent()+review.getContentId());
         reviewRepository.save(review);
     }
 
@@ -161,7 +161,6 @@ public class RestAPIController {
         public Festival festivalContent(@RequestBody String contentid) {
         Festival festival;
         festival = festivalRepository.findByContentId(contentid);
-        System.out.println("dddddd"+contentid);
         String result = festival.getOverview().replaceAll("<br>","");
         result = result.replaceAll("<br />","");
         result = result.replaceAll("</br>","");
@@ -183,7 +182,6 @@ public class RestAPIController {
         // 관광지 이미지 추가로 가져오기
         @PostMapping("/tourImages")
         public List <ImagesItem> tourImages(@RequestBody String contentid) throws IOException {
-            System.out.println("/tourImages의contentid값" + contentid);
 
             StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailImage"); /*URL*/
             urlBuilder.append("?")
@@ -230,7 +228,6 @@ public class RestAPIController {
                 imagesResponse = mapper.readValue(url, ImagesResponse.class);
 
             } catch (Exception e) {
-                System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ에러ㅓㅓㅓㅓㅓㅓㅓㅓㅓ");
                 return a;//사진있는경우
             }
             return imagesResponse.getResponse().getBody().getItems().getItem();
@@ -249,8 +246,6 @@ public class RestAPIController {
             nearbyTourParam.setMapY("37.5659098804");
         }
 
-        //  System.out.println(nearbyTourParam.getArrange()+"포착완료");
-        System.out.println("/nearbytour에서 관광지를 찾기위한 contentid값과x,y값"+contentIdNear+" "+nearbyTourParam.getMapX()+" "+nearbyTourParam.getMapY());
         StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList"); /*URL*/
         urlBuilder.append("?")
         .append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8))
@@ -306,7 +301,7 @@ public class RestAPIController {
             try {
                 tourResponse = mapper.readValue(url, TourResponse.class);
             } catch (Exception e) {
-                System.out.println("에러가 발생했어요!!");
+                logger.debug("exception");
                 return a;//
             }
             return tourResponse.getResponse().getBody().getItems().getItem();
@@ -316,14 +311,7 @@ public class RestAPIController {
     //x, y축을 가지고 주변 관광지 정보 가져오기-관광지
     @PostMapping("/nearbyTour2")
     public List<TourItem> nearbyTour2(@RequestBody NearbyTourParam nearbyTourParam) throws IOException {
-        var contentIdNear=nearbyTourParam.getContentid();
-       // System.out.println("/nearbyTour2의"+contentIdNear+"입니다");
 
-
-
-       // System.out.println(nearbyTourParam.getMapX()+" "+nearbyTourParam.getMapY()+"이랑임");
-       //  System.out.println("/nearbytour2에서 관광지를 찾기위한 x,y값"+nearbyTourParam.getMapX()+" "+nearbyTourParam.getMapY()+nearbyTourParam.getAddr1()+
-       // nearbyTourParam.getNumOfRows()+" "+nearbyTourParam.getArrange()+" "+nearbyTourParam.getRadius());
         StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList"); /*URL*/
         urlBuilder.append("?")
         .append(URLEncoder.encode("serviceKey", StandardCharsets.UTF_8))
@@ -380,8 +368,8 @@ public class RestAPIController {
         try {
             tourResponse = mapper.readValue(url, TourResponse.class);
         } catch (Exception e) {
-            System.out.println("에러가 발생했어요!!");
-            return a;//
+            logger.debug("exception");
+            return a;
         }
         return tourResponse.getResponse().getBody().getItems().getItem();
 
@@ -434,7 +422,6 @@ public class RestAPIController {
     // 개요, 홈페이지 정보 (관광지 공통정보 조회 api)
     @PostMapping("/detailCommon/tour")
     public ComInfoItem tourDetailCommon (@RequestBody String tourItem) throws IOException {
-        System.out.println("detailtour의 contentid값"+tourItem);
         StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon"); /*URL*/
         urlBuilder.append("?")
         .append(URLEncoder.encode("ServiceKey", StandardCharsets.UTF_8))
@@ -498,8 +485,7 @@ public class RestAPIController {
         .append(URLEncoder.encode("json", StandardCharsets.UTF_8));
         URL url = new URL(urlBuilder.toString());
 
-            ComInfoResponse responseResult = mapper.readValue(url, ComInfoResponse.class);
-            System.out.println("/detailcmmontour에서 image값확인"+responseResult.getResponse().getBody().getItems().getItem().getFirstimage()+"이야"+responseResult.getResponse().getBody().getItems().getItem().getFirstimage2());
+        ComInfoResponse responseResult = mapper.readValue(url, ComInfoResponse.class);
 
         String result ="";
         result = responseResult.getResponse().getBody().getItems().getItem().getOverview().replaceAll("</br>","");
@@ -507,14 +493,12 @@ public class RestAPIController {
         result = result.replaceAll("<br />","");
         result = result.replaceAll("<nbsp;>","");
         responseResult.getResponse().getBody().getItems().getItem().setOverview(result);
-            return responseResult.getResponse().getBody().getItems().getItem();
-        }
+        return responseResult.getResponse().getBody().getItems().getItem();
+    }
 
     @PostMapping("/airInfo2")//대기정보-관광지
     public List<AirItem> observatoryInfo2(@RequestBody ObservatoryParam requestParam) throws IOException {
-        //  System.out.println("airinfo2의 contentid 파라미터값체크"+requestParam.getContentid());
-        var aaa=requestParam.getContentid();
-        //     System.out.println("airinfo2의 aaa 파라미터값체크"+aaa);
+        var aaa = requestParam.getContentid();
 
         StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon"); /*URL*/
         urlBuilder.append("?")
@@ -580,10 +564,6 @@ public class RestAPIController {
         URL url = new URL(urlBuilder.toString());
 
         ComInfoResponse responseResult2 = mapper.readValue(url, ComInfoResponse.class);
-        //    System.out.println("airinfo첫번째api값체크"+responseResult2.getResponse().getBody().getItems().getItem());
-        //    System.out.println("airinfo2의 getmapx값체크요-"+responseResult2.getResponse().getBody().getItems().getItem().getMapx()+" "+responseResult2.getResponse().getBody().getItems().getItem().getMapy());
-        //   requestParam.setMapx( responseResult2.getResponse().getBody().getItems().getItem().getMapX());
-        //   requestParam.setMapy( responseResult2.getResponse().getBody().getItems().getItem().getMapY());
 
         // 좌표 변환해주는 api 사용하기 전에 키를 받아야함
         urlBuilder = new StringBuilder("https://sgisapi.kostat.go.kr/OpenAPI3/auth/authentication.json");
@@ -623,7 +603,6 @@ public class RestAPIController {
         url = new URL(urlBuilder.toString());
 
         LocationConvDTO locationConvDTO = mapper.readValue(url, LocationConvDTO.class);
-        //  System.out.println("airinpo2의pos값확인:"+locationConvDTO.getResult().getPosX()+"  "+locationConvDTO.getResult().getPosY());
         // 좌표기준 근접 측정소 정보 가져오기
         urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/MsrstnInfoInqireSvc/getNearbyMsrstnList");
         urlBuilder.append("?")
@@ -643,17 +622,22 @@ public class RestAPIController {
         ObservatoryDTO observatoryDTO = null;
 
         try {
-        observatoryDTO = restTemplate.getForObject(url.toURI(), ObservatoryDTO.class);
+            observatoryDTO = restTemplate.getForObject(url.toURI(), ObservatoryDTO.class);
         } catch (URISyntaxException e) {
-        e.printStackTrace();
+            logger.debug("URISyntaxException");
         }
 
         // 측정소 이름으로 대기정보 가져오기
         urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty");
-        urlBuilder.append("?")
-        .append(URLEncoder.encode("stationName", StandardCharsets.UTF_8))
-        .append("=")
-        .append(URLEncoder.encode(observatoryDTO.getBody().getItems().get(0).getStationName(), StandardCharsets.UTF_8));
+        if(observatoryDTO != null) {
+            urlBuilder.append("?")
+            .append(URLEncoder.encode("stationName", StandardCharsets.UTF_8))
+            .append("=")
+            .append(URLEncoder.encode(observatoryDTO.getBody().getItems().get(0).getStationName(), StandardCharsets.UTF_8));
+        }
+        else {
+            logger.debug("observatoryDTO error");
+        }
         urlBuilder.append("&")
         .append(URLEncoder.encode("dataTerm", StandardCharsets.UTF_8))
         .append("=")
@@ -674,20 +658,20 @@ public class RestAPIController {
         .append("=")
         .append(URLEncoder.encode("1.3", StandardCharsets.UTF_8));
         url = new URL(urlBuilder.toString());
-        //   System.out.println("stationname확인-"+observatoryDTO.getBody().getItems().get(0).getStationName());
         AirDTO airDTO = null;
 
         try {
-        airDTO = restTemplate.getForObject(url.toURI(), AirDTO.class);
+            airDTO = restTemplate.getForObject(url.toURI(), AirDTO.class);
         } catch (URISyntaxException e) {
-        e.printStackTrace();
+            logger.debug("URI syntax error");
         }
-        // System.out.println(airDTO.getBody().getItems().get(0).getKhaiGrade()+"농도이다");
-    /*    for(int i=0; i<10;i++) {
-            System.out.println("시간"+airDTO.getBody().getItems().get(i).getDataTime()+"  "+airDTO.getBody().getItems().get(i).getKhaiGrade() + "농도이다");
-        }*/
+        if (airDTO != null) {
             return airDTO.getBody().getItems();
+        } else {
+            logger.debug("null error");
+            return null;
         }
+    }
 
     // 대기정보-축제
     @PostMapping("/airInfo")
@@ -696,7 +680,6 @@ public class RestAPIController {
         festivals3=festivalRepository.findByContentId(requestParam.getContentid());
         requestParam.setMapx(festivals3.getMapX());
         requestParam.setMapy(festivals3.getMapY());
-          System.out.println("airinfo의 getmapx값체크요-"+requestParam.getContentid()+"이고"+festivals3.getMapX()+" "+festivals3.getMapY());
 
           if(requestParam.getMapx().length()==0)//예외처리
           {
@@ -760,19 +743,23 @@ public class RestAPIController {
         url = new URL(urlBuilder.toString());
 
         ObservatoryDTO observatoryDTO = null;
-        // System.out.println("pos값확인:"+locationConvDTO.getResult().getPosX()+"  "+locationConvDTO.getResult().getPosY());
         try {
-        observatoryDTO = restTemplate.getForObject(url.toURI(), ObservatoryDTO.class);
+            observatoryDTO = restTemplate.getForObject(url.toURI(), ObservatoryDTO.class);
         } catch (URISyntaxException e) {
-        e.printStackTrace();
+            logger.debug("uri syntax error");
         }
 
         // 측정소 이름으로 대기정보 가져오기
         urlBuilder = new StringBuilder("http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty");
-        urlBuilder.append("?")
-        .append(URLEncoder.encode("stationName", StandardCharsets.UTF_8))
-        .append("=")
-        .append(URLEncoder.encode(observatoryDTO.getBody().getItems().get(0).getStationName(), StandardCharsets.UTF_8));
+        if(observatoryDTO != null) {
+            urlBuilder.append("?")
+            .append(URLEncoder.encode("stationName", StandardCharsets.UTF_8))
+            .append("=")
+            .append(URLEncoder.encode(observatoryDTO.getBody().getItems().get(0).getStationName(), StandardCharsets.UTF_8));
+        }
+        else {
+            logger.debug("observatoryDTO error");
+        }
         urlBuilder.append("&")
         .append(URLEncoder.encode("dataTerm", StandardCharsets.UTF_8))
         .append("=")
@@ -793,20 +780,21 @@ public class RestAPIController {
         .append("=")
         .append(URLEncoder.encode("1.3", StandardCharsets.UTF_8));
         url = new URL(urlBuilder.toString());
-        // System.out.println("stationname확인-"+observatoryDTO.getBody().getItems().get(0).getStationName());
         AirDTO airDTO = null;
 
         try {
-        airDTO = restTemplate.getForObject(url.toURI(), AirDTO.class);
+            airDTO = restTemplate.getForObject(url.toURI(), AirDTO.class);
         } catch (URISyntaxException e) {
-        e.printStackTrace();
+            logger.debug("uri syntax error");
         }
-        //  System.out.println(airDTO.getBody().getItems().get(0).getKhaiGrade()+"농도이다");
-    /*    for(int i=0; i<10;i++) {
-            System.out.println("시간"+airDTO.getBody().getItems().get(i).getDataTime()+"  "+airDTO.getBody().getItems().get(i).getKhaiGrade() + "농도이다");
-        }*/
-        return airDTO.getBody().getItems();
+
+        if (airDTO != null) {
+            return airDTO.getBody().getItems();
+        } else {
+            logger.debug("airDTO null");
+            return null;
         }
+    }
 
 
     @PostMapping("/weatherInfo")//기상정보-축제
@@ -820,29 +808,23 @@ public class RestAPIController {
         Date standardDate = currentTimeFormat.parse(today+"0600");    // api가 아침 6시를 기준으로 데이터가 갱신되므로
         long standardMillis = standardDate.getTime();       // 기준 시간을 초로
 
-       // System.out.println("넘어온contentid이거다"+weatherForecastParam.getContentid());
         Festival festivals2 = new Festival();
         festivals2.setMapX("0");
         festivals2.setMapY("0");
-        System.out.println("/weatherinfo에서db값체크1"+festivals2.getAddr1()+"*"+festivals2.getMapX()+"*"+festivals2.getMapY());
         festivals2=festivalRepository.findByContentId(weatherForecastParam.getContentid());
-        System.out.println("/weatherinfo에서값체크"+weatherForecastParam.getAddr()+" "+weatherForecastParam.getMapX()+" "+weatherForecastParam.getMapY());
         weatherForecastParam.setAddr(festivals2.getAddr1());
         weatherForecastParam.setMapX(festivals2.getMapX());
         weatherForecastParam.setMapY(festivals2.getMapY());
-        System.out.println("/weatherinfo에서db값체크2"+festivals2.getAddr1()+"*"+festivals2.getMapX()+"*"+festivals2.getMapY());
+
+
 
 
         if(festivals2.getMapX().length()==0)//예외처리default값
         {
-            System.out.println("db에 x,y값이 존재하지않는 축제입니다kkkkkkkkkkkkkkkkkkk");
             weatherForecastParam.setMapX("126.9787932340");
             weatherForecastParam.setMapY("37.5659098804");
-
-
         }
-        else {System.out.println("몰라영");
-        }
+
         // 새벽 6시 이전이면 하루 전 데이터 가져옴
         String currentTime;
         if (standardMillis > currentMillis) {
@@ -1050,16 +1032,12 @@ public class RestAPIController {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
         SimpleDateFormat currentTimeFormat = new SimpleDateFormat("yyyyMMddHHmm", Locale.KOREA);
 
-        System.out.println("실행되나ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ");
         String today = format.format(calendar.getTime());     // 현재 날짜
         long currentMillis = calendar.getTimeInMillis();    // 현재 시간을 초로
         Date standardDate = currentTimeFormat.parse(today+"0600");    // api가 아침 6시를 기준으로 데이터가 갱신되므로
         long standardMillis = standardDate.getTime();       // 기준 시간을 초로
 
-//       // System.out.println("넘어온contentid이거다"+weatherForecastParam.getContentid());
-        //     System.out.println("airinfo2의 contentid 파라미터값체크"+weatherForecastParam.getContentid());
-        var aaa=weatherForecastParam.getContentid();
-        //     System.out.println("airinfo2의 aaa 파라미터값체크"+aaa);
+        var aaa = weatherForecastParam.getContentid();
 
         StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon"); /*URL*/
         urlBuilder.append("?")
@@ -1125,14 +1103,6 @@ public class RestAPIController {
         URL url = new URL(urlBuilder.toString());
 
         ComInfoResponse responseResult2 = mapper.readValue(url, ComInfoResponse.class);
-        //   System.out.println("airinfo첫번째api값체크"+responseResult2.getResponse().getBody().getItems().getItem());
-        //  System.out.println("airinfo2의 getmapx값체크요-"+responseResult2.getResponse().getBody().getItems().getItem().getMapx()+" "+responseResult2.getResponse().getBody().getItems().getItem().getMapy());
-        System.out.println(weatherForecastParam.getMapX()+"x좌표");
-
-        //   weatherForecastParam.setAddr(responseResult2.getResponse().getBody().getItems().getItem().getAddr1());
-        //  weatherForecastParam.setMapX(responseResult2.getResponse().getBody().getItems().getItem().getMapx());
-        //  weatherForecastParam.setMapY(responseResult2.getResponse().getBody().getItems().getItem().getMapx());
-//      System.out.println("기상정보값관련값체크"+responseResult2.getResponse().getBody().getItems().getItem().getAddr1());
 
 
         // 새벽 6시 이전이면 하루 전 데이터 가져옴
