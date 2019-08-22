@@ -17,7 +17,7 @@
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
 
     <link th:href="@{css/jquery.range.css}" rel="stylesheet">
-    <script th:src="@{lib/jquery.range.js}"></script>
+    <script th:src="@{lib/jquery.range-min.js}"></script>
 
     <script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
     <title>Hello, world!</title>
@@ -434,18 +434,18 @@
                 </div>
                 <div class="login-modal-body">
                     <div class="login-form">
-                        <form action="/loginPage/login" method="post">
+<!--                        <form action="/member/login" method="post">-->
                             <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
                             <h4 class="modal-title">Login to Your Account</h4>
                             <div class="form-group">
-                                <input type="text" class="form-control" id="loginNickName" placeholder="Username" required="required">
+                                <input name="id" type="text" class="form-control" id="loginNickName" placeholder="Username" required="required">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" id="loginPw" placeholder="Password" required="required">
+                                <input name="pw" type="password" class="form-control" id="loginPw" placeholder="Password" required="required">
                             </div>
 
                             <input type="submit" class="btn btn-primary btn-block btn-lg" id="login" value="Login">
-                        </form>
+<!--                        </form>-->
                     </div>
                 </div>
             </div>
@@ -518,6 +518,7 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
 
+
     //날씨선택 slider
     $('.range-slider').jRange({
         from: 1,
@@ -528,6 +529,7 @@
         format: '%s월',
 
     });
+
 
     var scroll_category="main";
 
@@ -544,6 +546,8 @@
 
     //첫 화면의 축제 리스트 출력
     $( document ).ready(function() {
+
+
 
         print_festivalList("main", 0, today);
 
@@ -813,16 +817,14 @@
         alert(nickName +"카드"+pw);
         var param = {"nickName": nickName, "pw": pw};
         $.ajax({
-            url: "/loginPage/login",
+            url: "/member/login",
             type: "POST",
-            dataType: "json",
+            dataType: "text",
             contentType: "application/json",
             data: JSON.stringify(param)
         }).done(function(data) {
-            //var result = /*[[ ${session.id} ]]*/;
-            //location.href = "/main";
-            alert(data.length+"ajax으로 넘어왔어");
-
+            var result = /*[[ ${session.id} ]]*/;
+            alert("아이디"+result);
 
         }).fail(function(){
             alert("error"+"값을보자-"+data.length);
@@ -901,13 +903,14 @@
 
 
     // 세션에 따른 side bar 요소 변경
-    $( document ).ready(function() {
-        $logout_list = $('<a class="list-group-item" data-toggle="modal" data-target="#Modal2"><i class="fas fa-user" name="logoutList"></i>로그아웃</a>');
-        if(session.getAttribute("id")) {
-            document.getElementsByName("loginList").remove();
-            $logout_list.append();
-        }
-    });
+    // $( document ).ready(function() {
+    //
+    //     $logout_list = $('<a class="list-group-item" data-toggle="modal" data-target="#Modal2"><i class="fas fa-user" name="logoutList"></i>로그아웃</a>');
+    //     if(session.getAttribute("id")) {
+    //         document.getElementsByName("loginList").remove();
+    //         $logout_list.append();
+    //     }
+    // });
 
     /*]]>*/
 </script>

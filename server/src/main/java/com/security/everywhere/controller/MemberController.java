@@ -6,24 +6,40 @@ import com.security.everywhere.model.MemberRole;
 import com.security.everywhere.repository.MemberRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@RestController
+
+@Controller
+@SessionAttributes("id")
 @RequestMapping("/member")
 public class MemberController {
 
+    private String id;
     private final MemberRepository memberRepository;
 
     public MemberController(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
+
+    @PostMapping("/login")
+    public String logintest( @RequestBody Member member){
+
+
+        System.out.println(member.getNickName());
+        System.out.println(member.getPw());
+        //문자열, 버놓 비ㄱ
+
+        return "text";
+    }
+
+
+
 
     @PostMapping("/check/nickName")
     public String checkId(@RequestBody Member member) {

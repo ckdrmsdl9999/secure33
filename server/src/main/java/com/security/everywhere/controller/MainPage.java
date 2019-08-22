@@ -9,10 +9,14 @@ import org.springframework.web.bind.annotation.*;
 public class MainPage {
 
     @GetMapping("/main")
-    public String getTesting(){
+    public String getTesting(Model model){
 
         return "main";
     }
+
+
+
+
 
     @GetMapping("/content/{contentId}")
     public String Contentpage(@PathVariable String contentId, Model model) {
@@ -31,8 +35,10 @@ public class MainPage {
         return "tourcontent";  // html name
     }
 
-    @GetMapping("/loginPage")
-    public String loginPage() { return "loginPage"; }
+
+
+//    @GetMapping("/loginPage")
+//    public String loginPage() { return "loginPage"; }
 
 //    @PostMapping("/")
 //    public String postTesting(TestParam testParam, Model model) {
