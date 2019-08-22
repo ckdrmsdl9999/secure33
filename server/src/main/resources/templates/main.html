@@ -409,6 +409,38 @@
                 <div class="container-fluid modal-body3">
                     <hr>
                 </div>
+                <div class="container-fluid modal-body4">
+                    <hr>
+                    <div class="row">
+                        <div class="col"><h5>카테고리</h5></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn category_button btn-secondary active"  name="" >
+                                    전체
+                                </label></div>
+                        </div>
+                        <div class="col">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn category_button btn-secondary"  name="음식">
+                                    음식
+                                </label></div>
+                        </div>
+                        <div class="col">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn category_button btn-secondary"  name="음악" >
+                                    음악
+                                </label></div>
+                        </div>
+                        <div class="col">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn category_button btn-secondary" name="스포츠" >
+                                    스포츠
+                                </label></div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     <button type="button" class="btn btn-primary" onclick="conditional_search();">검색</button>
@@ -443,6 +475,7 @@
 
 
     var scroll_category="main";
+    var category_str;
 
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -471,8 +504,6 @@
         startmonth = $('.pointer-label.low').text().split('월')[0];
         endmonth = $('.pointer-label.high').text().split('월')[0];
 
-        // alert(startmonth);
-        // alert(endmonth);
 
         if(startmonth.length == 1)
             startmonth = "0" + startmonth;
@@ -492,8 +523,7 @@
         scroll_category = "con";
         print_festivalList("con", 0, startmonth, endmonth, region);
         $("#Modal1").modal('hide');
-        //$('.bmd-layout-drawer.bg-faded').attr('aria-expanded','false');
-        //$('.bmd-layout-drawer.bg-faded').attr('aria-hidden','true');
+
     }
 
     //세부 지역 목록
@@ -593,6 +623,21 @@
         //alert($('.bmd-layout-content').height());
     });
 
+    $(document).on('click','.category_button',function () {
+
+        $('.category_button').removeClass('active');
+        $('this').addClass('active');
+
+        scroll_category = "category";
+        category_str = $(this).attr("name");
+
+
+
+        print_festivalList("search", 0, today, null, null, category_str);
+        $("#Modal1").modal('hide');
+
+    });
+
 
 
     //스크롤 이벤트
@@ -636,6 +681,8 @@
                     print_festivalList("search", ++pagenum, today, null, null, str);
                 else if(scroll_category == "con")
                     print_festivalList("con", ++pagenum, startmonth, endmonth, region);
+                else if(scroll_category == "category")
+                    print_festivalList("search", ++pagenum, today, null, null, category_str);
 
                 once += 1;
             }
@@ -657,7 +704,6 @@
     $(document).on('click','#button-addon1',function (){
         str = document.getElementById("searchword1").value;
         str = XSS_Check(str);
-        alert(str);
         scroll_category = "search";
         print_festivalList("search", 0, today, null, null, str);
     });
