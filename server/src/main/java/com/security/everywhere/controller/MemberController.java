@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -28,18 +30,26 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String logintest( @RequestBody Member member){
-
+    public @ResponseBody String login(@RequestBody Member member){
 
         System.out.println(member.getNickName());
         System.out.println(member.getPw());
-        //문자열, 버놓 비ㄱ
 
-        return "text";
+        return "main";
     }
 
+    @GetMapping("/makeSession")
+    public String makeSession(Model model){
+        model.addAttribute("id",id);
 
+        System.out.println("세션컨트");
 
+        return "true";
+    }
+
+    public void execute(HttpServletRequest request, HttpServletResponse response){
+
+    }
 
     @PostMapping("/check/nickName")
     public String checkId(@RequestBody Member member) {
