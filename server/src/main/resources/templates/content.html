@@ -251,8 +251,8 @@
                     <h5><p class="font-weight-bold">주변 관광지</p></h5>
                 </div>
                 <div class="col-2 ">
-                    <a href="#">
-                        <p><i class="fas fa"></i> </p></a>
+                    <a href="#" class="mylocation2">
+                        <p><i class="fas fa"></i>나의주변</p></a>
                 </div>
             </div>
             <div class="horizontal-scroll" id="tourtour">
@@ -343,11 +343,13 @@
 
     var myy;//latitude
     var myx;//longtitude
+
+
     function getLocation() {
         if (navigator.geolocation) { // GPS를 지원하면
             navigator.geolocation.getCurrentPosition(function(position) {
                 myy=position.coords.latitude;myx=position.coords.longitude;
-                alert("위도:"+position.coords.latitude + '경도:' + position.coords.longitude);
+      //          alert("위도:"+position.coords.latitude + '경도:' + position.coords.longitude);
             }, function(error) {
                 console.error(error);
             }, {
@@ -447,8 +449,9 @@
         });
     });
 
-    $( document ).ready(function() {
+    $( document ).ready(function() {//근처관광지
         var param = {"contentid": val, "numOfRows": "10", "pageNo": "1", "arrange": "E", "radius": "5000"};
+        getLocation()
         $.ajax({
             url: "/api/nearbyTour",
             type: "POST",
@@ -459,10 +462,6 @@
             //     alert(data.length+"개의 관광지가 근처에있어");
             //$festival_item.find('a').attr('href',"tourcontent/" + data[i].contentId);
             for (var i = 0; i < data.length; i++) {
-                //  alert("데이터의거리값:"+data[i].dist+"그림src"+data[i].firstimage);
-
-                // <img src="/img/alt.png" class="d-block img-fluid " style="width: 600px; height:400px" alt="...">
-
 
                 $festival_item5 = $('<div class="card" width="300" height="160"  >\n' +
                     '<img src="http://placehold.it/200x140"  width="300" height="170"/>\n' +
@@ -491,6 +490,43 @@
         }).fail(function () {
         });
 
+        $(document).on('click',".mylocation2",function (){//내위치기반근처관광지
+
+            //  alert("myyx값"+myx+"myy값"+myy);
+            var param = {"contentid" : val ,"mapX":myx,"mapY":myy,"numOfRows":"10","pageNo":"1","arragne":"E","radius":"5000"};
+
+            $.ajax({
+                url: "/api/nearbyTour2",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(param),
+            }).done(function (data) {
+                //   alert(data.length+"개의 관광지가 근처에있어");
+                $("#tourtour").children().remove();
+                for (var i = 0; i < data.length; i++) {
+                    //  alert("데이터의거리값:"+data[i].dist+"그림src"+data[i].firstimage);
+                    $festival_item5 = $('<div class="card" width="300" height="160" >\n'+
+                        '<img src="http://placehold.it/200x140" width="300" height="170"/>\n'+
+                        '<a href="#">\n'+
+                        '<div class="card-body">\n'+
+                        '<p class="card-text">이름</p>\n'+
+                        '<i class="card-text"><small class="text-muted">약 1km임</small></i>\n'+
+                        '</div>'+
+                        '</a>'+
+                        '</div>');
+                    $festival_item5.children('img').attr('src',data[i].firstimage2);
+                    $festival_item5.find('a').attr('href',"/content/tourcontent/"+data[i].contentid+"/"+data[i].mapx+"/"+data[i].mapy);////
+                    $festival_item5.find('p').text(data[i].title);
+                    $festival_item5.find('small').text(data[i].dist+'미터');
+
+
+                    $("#tourtour").append($festival_item5);
+                }
+
+            }).fail(function () {
+            });
+        });
 
         // 리뷰 포스트 버튼
         $(document).on('click', '.btn.btn-info.float-right', function () {
