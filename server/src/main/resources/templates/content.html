@@ -147,6 +147,9 @@
             margin-left: -30px;
         }
 
+        .break{
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -536,8 +539,9 @@
             var textcontent = $('.form-control').val();
             var param = {"contentId": val, "userId": "익명", "textcontent": textcontent, "star": star, "date": today};
 
-
-            if (textcontent != null) {
+            if (textcontent.length >= 100)
+                alert("내용을 입력해주세요.(100자 이하)");
+            else if (textcontent != "") {
                 $.ajax({
                     url: "/api/writeReview",
                     type: "POST",
@@ -549,9 +553,8 @@
                 }).fail(function (data) {
                     alert('fail');
                 });
-            } else if (textcontent.length >= 100) {
-                alert("내용을 입력해주세요.(100자 이하)");
-            } else {
+            }
+            else {
                 alert("내용을 입력해주세요.(100자 이하)");
             }
 
@@ -651,7 +654,7 @@
                         '                                            <i class="far fa-thumbs-up"></i>\n' +
                         '                                        </a></p>\n' +
                         '                                    </div>\n' +
-                        '                                    <p id="review_content">\n' +
+                        '                                    <p id="review_content" class="break">\n' +
                         '                                        Lorem ipsum dolor sitamet sit ag elit.\n' +
                         '                                    </p>\n' +
                         '                                </div>\n' +
