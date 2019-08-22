@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-       <!-- Material Design for Bootstrap fonts and icons -->
+    <!-- Material Design for Bootstrap fonts and icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <!-- Material Design for Bootstrap CSS -->
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
@@ -294,7 +294,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="btn-group-toggle" data-toggle="buttons">
-                                <label class="btn area_button btn-secondary active" value="" >
+                                <label class="btn area_button btn-secondary active" value="" id="area_button0" >
                                     전체
                                 </label></div>
                         </div>
@@ -481,15 +481,15 @@
                                     <input type="password" class="form-control" id="signUpPassword" placeholder="Password" required="required">
                                 </div>
                             </div>
-<!--                            <div class="form-group">-->
-<!--                                <div class="input-group">-->
-<!--                                    <span class="input-group-addon">-->
-<!--                                        <i class="fa fa-lock"></i>-->
-<!--                                        <i class="fa fa-check"></i>-->
-<!--                                    </span>-->
-<!--                                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <div class="form-group">-->
+                            <!--                                <div class="input-group">-->
+                            <!--                                    <span class="input-group-addon">-->
+                            <!--                                        <i class="fa fa-lock"></i>-->
+                            <!--                                        <i class="fa fa-check"></i>-->
+                            <!--                                    </span>-->
+                            <!--                                    <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
                             <div class="form-group">
                                 <p type="text" id="passwordState" style="font-size: 0.5rem"></p>
                             </div>
@@ -529,61 +529,60 @@
 
     });
 
+    var scroll_category="main";
+
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     today = yyyy + mm + dd;
 
-    var startmonth = /*[[ ${startmonth} ]]*/;
-    var endmonth = /*[[ ${endmonth} ]]*/;
-    var region = /*[[ ${area} ]]*/;
-    var search = /*[[ ${search} ]]*/;
-
-    var checker = 0; // main : 0, search : 1, codition : 2
+    var startmonth;
+    var endmonth;
+    var region;
+    var str
 
     //첫 화면의 축제 리스트 출력
     $( document ).ready(function() {
 
-        if(startmonth  != '00'){ // 조건검색
-            checker = 2;
-            if(region == "0")
-                region = null;
-            startmonth = yyyy + startmonth + '01';
-            endmonth = yyyy + endmonth + '31';
-            print_festivalList("con", 0, startmonth, endmonth, region);
-        }
-        else if(search != '0'){
-            checker = 1;
-            print_festivalList("search", 0, today, null, null, search);
-        }
-        else { //메인
-            checker = 0;
-            print_festivalList("main", 0, today);
-        }
+        print_festivalList("main", 0, today);
+
     });
 
 
     //조건 검색
     function conditional_search() {
 
-        var url = '?startmonth=' + $('.pointer-label.low').text().split('월')[0] +
-            '&endmonth=' + $('.pointer-label.high').text().split('월')[0];
+        startmonth = $('.pointer-label.low').text().split('월')[0];
+        endmonth = $('.pointer-label.high').text().split('월')[0];
+
+        // alert(startmonth);
+        // alert(endmonth);
+
+        if(startmonth.length == 1)
+            startmonth = "0" + startmonth;
+        if(endmonth.length == 1)
+            endmonth = "0" + endmonth;
+
+        startmonth = yyyy + startmonth + "01";
+        endmonth = yyyy + endmonth + "31";
+
+        region = $('.modal-body2').find('.active').attr('value').trim();
+        var region2 = $('.modal-body3').find('.active').text().trim();
+
+        region = region + ' ' + region2;
 
 
-        url += '&area=';
-        $('.modal-body2').find('.active').each(function() {
-            var temp = $(this).attr('value').trim();
-            url += temp;
-        });
-        $('.modal-body3').find('.active').each(function() {
-            var temp = $(this).text().trim();
-            if(temp != '전체')
-                url += '+' + temp;
-        });
+        // //
+        // alert(startmonth);
+        // alert(endmonth);
+        // alert(region);
 
-        location.href =  location.href.split('?')[0] + url;
-
+        scroll_category = "con";
+        print_festivalList("con", 0, startmonth, endmonth, region);
+        $("#Modal1").modal('hide');
+        //$('.bmd-layout-drawer.bg-faded').attr('aria-expanded','false');
+        //$('.bmd-layout-drawer.bg-faded').attr('aria-hidden','true');
     }
 
     //세부 지역 목록
@@ -720,13 +719,12 @@
 
             if (once == 0) {
 
-                if(checker == 1)
-                    print_festivalList("search", ++pagenum, today, null, null, str);
-                else if(checker == 2)
-                    print_festivalList("con", ++pagenum, startmonth, endmonth, region);
-                else
+                if(scroll_category == "main")
                     print_festivalList("main", ++pagenum, today);
-
+                else if(scroll_category == "search")
+                    print_festivalList("search", ++pagenum, today, null, null, str);
+                else if(scroll_category == "con")
+                    print_festivalList("con", ++pagenum, startmonth, endmonth, region);
 
                 once += 1;
             }
@@ -744,22 +742,26 @@
         };
     });
 
+    // 검색 버튼 클릭
     $(document).on('click','#button-addon1',function (){
-        var str = document.getElementById("searchword1").value;
+        str = document.getElementById("searchword1").value;
         str = XSS_Check(str);
-        location.href =  location.href.split('?')[0] + "?search=" + str;
-
-
+        alert(str);
+        scroll_category = "search";
+        print_festivalList("search", 0, today, null, null, str);
     });
     $(document).on('click','#button-addon',function (){
-        var str = document.getElementById("searchword").value;
+        str = document.getElementById("searchword").value;
         str = XSS_Check(str);
-        location.href =  location.href.split('?')[0] + "?search=" + str;
+        alert(str);
+        scroll_category = "search";
+        print_festivalList("search", 0, today, null, null, str);
     });
 
     function print_festivalList(category, pagenum, date1, date2, address, title){
         var param = {"pageNo": pagenum,"numOfRows": "10","title" : title,
             "eventStartDate": date1, "eventEndDate": date2, "address" : address, "category" : category};
+        scroll_category = category;
         $.ajax({
             url: "/api/festivalInfo",
             type: "POST",
@@ -767,6 +769,9 @@
             contentType: "application/json",
             data : JSON.stringify(param),
         }).done(function( data ) {
+            if(pagenum == 0)
+                $('.list-unstyled.list-thumbs').children().remove();
+
             $appendData = $('<div class="row"></div>');
             for(var i=0;i<data.length;i++) {
 
@@ -787,6 +792,7 @@
             $('.list-unstyled.list-thumbs').append($appendData);
             //.hide().fadeIn("fast");
         }).fail(function() {
+
         });
     }
 
