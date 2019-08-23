@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySources;
 
 @Configuration
 @PropertySources({  // 여러개의 경로 지정해서 여러개의 설정파일 읽기 가능
-        @PropertySource(value = "file:etc/application.properties"
+        @PropertySource(value = "file:/Users/Enirobot/Documents/github/secure33/etc/application.properties"
                 , ignoreResourceNotFound = true)
 })
 public class GlobalPropertySource {
