@@ -240,11 +240,7 @@ public class RestAPIController {
         festival = festivalRepository.findByContentId(contentIdNear);
         nearbyTourParam.setMapX(festival.getMapX());
         nearbyTourParam.setMapY(festival.getMapY());
-        if(nearbyTourParam.getMapX().length()==0)//예외처리 contentid 2602871
-        {
-            nearbyTourParam.setMapX("126.9787932340");
-            nearbyTourParam.setMapY("37.5659098804");
-        }
+
 
         StringBuilder urlBuilder = new StringBuilder("http://api.visitkorea.or.kr/openapi/service/rest/KorService/locationBasedList"); /*URL*/
         urlBuilder.append("?")
